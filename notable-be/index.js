@@ -3,7 +3,12 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const router = require("./routes/api/auth");
+const dotenv = require("dotenv");
+const jwtAuth = require("./middlewares/jwtAuth");
+
 app.use(bodyParser.json());
+
+dotenv.config();
 
 mongoose
     .connect("mongodb://localhost:27017/notable", {})
@@ -15,10 +20,12 @@ mongoose
     });
 
 app.use("/api/auth", router);
-app.get("/", (req, res) => {
-    res.send("Notable");
+app.get("/", jwtAuth, (req, res) => {
+    res.send("Notable and user is: " + req.user.username);
 });
 
-app.listen(3000, () => {
-    console.log("Server is running on port 3000");
+PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log("Server is running on port " + PORT);
 });

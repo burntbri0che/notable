@@ -30,5 +30,7 @@ module.exports.login = async (req, res) => {
     );
     if (!matchedPassword) return res.status(400).send("Invalid password");
 
-    res.status(200).send("Logged in");
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+
+    res.header("auth-token", token).send("login successful").status(200);
 };
