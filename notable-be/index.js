@@ -3,11 +3,10 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const auth = require("./routes/api/auth");
-const notes = require('./routes/api/notes');
+const notes = require("./routes/api/notes");
 const dotenv = require("dotenv");
 const jwtAuth = require("./middlewares/jwtAuth");
-
-
+const logger = require("./middlewares/requestLogging");
 
 app.use(bodyParser.json());
 
@@ -22,12 +21,14 @@ mongoose
         console.log(err);
     });
 
+app.use(logger);
+
 app.use("/api/auth", auth);
 app.get("/", (req, res) => {
     res.send("Notable and user is: ");
 });
 
-app.use('/api/notes', notes);
+app.use("/api/notes", jwtAuth, notes);
 
 PORT = process.env.PORT || 3000;
 

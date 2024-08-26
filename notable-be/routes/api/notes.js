@@ -1,10 +1,9 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
+const notes = require("../../controllers/noteController");
 
-const noteController  = require("../../controllers/noteController");
-
-
-router.post('/create', noteController.create);
-router.post('/edit/:id', noteController.edit);
+router.get("/", notes.getAll);
+router.post("/create", notes.create);
+router.put("/edit/:id", notes.edit);
+router.delete("/delete/:id", notes.delete);
 
 module.exports = router;
