@@ -5,6 +5,7 @@ module.exports = async function (req, res, next) {
     try {
         const token = req.header("auth-token");
         const verified = jwt.verify(token, process.env.JWT_SECRET);
+        console.log(verified);
         if (verified) {
             req.user = await user.findById(verified._id);
             next();

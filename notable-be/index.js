@@ -2,9 +2,12 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const router = require("./routes/api/auth");
+const auth = require("./routes/api/auth");
+const notes = require('./routes/api/notes');
 const dotenv = require("dotenv");
 const jwtAuth = require("./middlewares/jwtAuth");
+
+
 
 app.use(bodyParser.json());
 
@@ -19,10 +22,12 @@ mongoose
         console.log(err);
     });
 
-app.use("/api/auth", router);
-app.get("/", jwtAuth, (req, res) => {
-    res.send("Notable and user is: " + req.user.username);
+app.use("/api/auth", auth);
+app.get("/", (req, res) => {
+    res.send("Notable and user is: ");
 });
+
+app.use('/api/notes', notes);
 
 PORT = process.env.PORT || 3000;
 
