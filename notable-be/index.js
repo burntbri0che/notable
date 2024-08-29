@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/notes", jwtAuth, notes);
 
-PORT = process.env.PORT || 3000;
+PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
     console.log("Server is running on port " + PORT);
