@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const auth = require("./routes/api/auth");
 const notes = require("./routes/api/notes");
@@ -20,6 +21,12 @@ mongoose
     .catch((err) => {
         console.log(err);
     });
+
+app.use(
+    cors({
+        exposedHeaders: ["auth-token"], // Allow frontend to access the auth-token header
+    })
+);
 
 app.use(logger);
 
